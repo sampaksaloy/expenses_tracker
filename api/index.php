@@ -4,12 +4,15 @@ header('Content-Type: application/json');
 
 require_once __DIR__ . '/../includes/db.php';
 
-$uri    = $_SERVER['REQUEST_URI'];
-$uri    = str_replace('/expenses_tracker/api', '', $uri);
-$uri    = parse_url($uri, PHP_URL_PATH);
-$parts  = explode('/', trim($uri, '/'));
+$uri = $_SERVER['REQUEST_URI'];
 
-$resource = $parts[0];
+$uri = str_replace('/expenses_tracker/api/index.php', '', $uri);
+
+$uri = parse_url($uri, PHP_URL_PATH);
+
+$parts = explode('/', trim($uri, '/'));
+
+$resource = isset($parts[0]) ? $parts[0] : '';
 $id       = isset($parts[1]) ? (int)$parts[1] : null;
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -70,9 +73,9 @@ if ($resource == 'expenses') {
 
         $title       = isset($body['title'])       ? trim($body['title'])       : '';
         $description = isset($body['description']) ? trim($body['description']) : '';
-        $amount      = isset($body['amount'])      ? $body['amount']            : 0;
+        $amount      = isset($body['amount'])       ? $body['amount']            : 0;
         $category_id = isset($body['category_id']) ? $body['category_id']       : '';
-        $date        = isset($body['expense_date']) ? $body['expense_date']     : '';
+        $date        = isset($body['expense_date']) ? $body['expense_date']      : '';
 
         if ($title == '') {
             http_response_code(422);
@@ -119,9 +122,9 @@ if ($resource == 'expenses') {
 
         $title       = isset($body['title'])       ? trim($body['title'])       : '';
         $description = isset($body['description']) ? trim($body['description']) : '';
-        $amount      = isset($body['amount'])      ? $body['amount']            : 0;
+        $amount      = isset($body['amount'])       ? $body['amount']            : 0;
         $category_id = isset($body['category_id']) ? $body['category_id']       : '';
-        $date        = isset($body['expense_date']) ? $body['expense_date']     : '';
+        $date        = isset($body['expense_date']) ? $body['expense_date']      : '';
 
         if ($title == '') {
             http_response_code(422);
